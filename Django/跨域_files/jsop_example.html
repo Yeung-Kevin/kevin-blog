@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Title</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" href="">
+    <script type="text/javascript" src=''></script>
+</head>
+<body>
+
+<input type="button" onclick="AjaxRequest()" value="跨域Ajax"/>
+
+<div id="container"></div>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    function AjaxRequest() {
+        $.ajax({
+            //url: 'http://www.jxntv.cn/data/jmd-jxtv2.html?callback=list',
+            // 等同于
+            url: 'http://www.jxntv.cn/data/jmd-jxtv2.html',
+            type: 'GET',
+            dataType: 'jsonp',
+            jsonp: 'callback',
+            jsonpCallback: 'list',
+            success: function (data) {
+                $.each(data.data, function (i) {
+                    var item = data.data[i];
+                    var str = "<p>" + item.week + "</p>";
+                    $('#container').append(str);
+                    $.each(item.list, function (j) {
+                        var temp = "<a href='" + item.list[j].link + "'>" + item.list[j].name + " </a><br/>";
+                        $('#container').append(temp);
+                    });
+                    $('#container').append("<hr/>");
+                })
+
+            }
+        });
+    }
+</script>
+</body>
+</html>
